@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,15 +33,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(){
+        TextView tv1 = (TextView)findViewById(R.id.tv_1);
+        TextView tv2 = (TextView)findViewById(R.id.tv_2);
+        TextView tv3 = (TextView)findViewById(R.id.tv_3);
+        tv1.setOnClickListener(new MyClickListener(0));
+        tv2.setOnClickListener(new MyClickListener(1));
+        tv3.setOnClickListener(new MyClickListener(2));
+
+
         List<View> list = new ArrayList<View>();
         LayoutInflater li = getLayoutInflater();
         list.add(li.inflate(R.layout.layout_viewpager_one, null));
         list.add(li.inflate(R.layout.layout_viewpager_two, null));
         list.add(li.inflate(R.layout.layout_viewpager_three, null));
-        List<String> title = Arrays.asList("Page 1", "Page 2", "Page 3");
-
         myPagerAdapter.setmData(list);
-        myPagerAdapter.setmTitle(title);
         mViewPager.setAdapter(myPagerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -63,5 +69,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    class MyClickListener implements View.OnClickListener{
+
+        private int index;
+
+        public MyClickListener(int idx) {
+            index = idx;
+        }
+
+        @Override
+        public void onClick(View v) {
+            mViewPager.setCurrentItem(index);
+        }
     }
 }
